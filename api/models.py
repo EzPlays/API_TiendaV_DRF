@@ -10,16 +10,23 @@ class Products(models.Model):
     sale_price = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return f'{self.name}, {self.description}'
 
 
 class Users(AbstractUser):
-    username = models.CharField(max_length=100)
-    email = models.EmailField()
+    username = models.CharField(max_length = 255, unique = True)
+    email = models.EmailField('Correo Electrónico',max_length = 255, unique = True)
     password = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
     def __str__(self):
-        return self.username
+        return f'{self.username}'
 
 
 class ShoppingCart(models.Model):
