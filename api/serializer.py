@@ -1,16 +1,22 @@
 from rest_framework import serializers
 from .models import Products, Shopping, ShoppingCart, Users
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 # serializers
 
-class ProductsSerializer(serializers.ModelSerializer):
 
-    def validate_name(self, value):
-        existe = Products.objects.filter(name__iexact=value).exists()
-        if existe:
-            raise serializers.ValidationError('Este nombre de producto ya existe')
-        return existe
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    pass
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ('id','username')
+
+
+class ProductsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Products
@@ -23,7 +29,8 @@ class ShoppingSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'user': instance.user.__str__(),
-            'product': instance.product.__str__(),
+            'name': instance.product.name.__str__(),
+            'description': instance.product.description.__str__(),
             'quantity': instance.quantity,
             'total': instance.total,
             'state': instance.state,
@@ -40,8 +47,11 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'user': instance.user.__str__(),
-            'product': instance.product.__str__(),
+            'id_product': instance.product.id.__str__(),
+            'name': instance.product.name.__str__(),
+            'description': instance.product.description.__str__(),
             'quantity': instance.quantity,
+            'sale_price': instance.product.sale_price.__str__(),
         }
 
     class Meta:

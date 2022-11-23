@@ -14,15 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from api.views import Login, Logout
+# ShoppingCartViewSet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api.urls')),
+    # re_path('^aaaaaaa/(?P<pk>.+)/$', ShoppingCartViewSet.as_view({'get': 'list'}), name='aaaaaaa'),
+    path('logout/', Logout.as_view(), name='logout'),
+    path('login/', Login.as_view(), name='login'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
