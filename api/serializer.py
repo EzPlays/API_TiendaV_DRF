@@ -29,8 +29,8 @@ class ShoppingSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'user': instance.user.__str__(),
-            'name': instance.product.name.__str__(),
-            'description': instance.product.description.__str__(),
+            'name': instance.product.name,
+            'description': instance.product.description,
             'quantity': instance.quantity,
             'total': instance.total,
             'state': instance.state,
@@ -47,11 +47,11 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         return {
             'id': instance.id,
             'user': instance.user.__str__(),
-            'id_product': instance.product.id.__str__(),
-            'name': instance.product.name.__str__(),
-            'description': instance.product.description.__str__(),
+            'id_product': instance.product.id,
+            'name': instance.product.name,
+            'description': instance.product.description,
             'quantity': instance.quantity,
-            'sale_price': instance.product.sale_price.__str__(),
+            'sale_price': instance.product.sale_price,
         }
 
     class Meta:
